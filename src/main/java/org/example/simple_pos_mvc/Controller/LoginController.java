@@ -38,12 +38,12 @@ public class LoginController {
 
     @FXML
     void handleLogin(ActionEvent event) {
-
+        System.out.println("login btn clicked");
     }
 
     @FXML
     void handleSignUp(ActionEvent event) {
-
+        System.out.println("sign up btn clicked");
     }
 
 }
