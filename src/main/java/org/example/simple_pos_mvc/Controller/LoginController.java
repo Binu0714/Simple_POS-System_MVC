@@ -81,9 +81,6 @@ public class LoginController {
         ancLogin.getChildren().clear();
         StackPane load = FXMLLoader.load(getClass().getResource("/view/SignUp.fxml"));
         ancLogin.getChildren().add(load);
-
-        load.prefWidthProperty().bind(ancLogin.widthProperty());
-        load.prefHeightProperty().bind(ancLogin.heightProperty());
     }
 
 }

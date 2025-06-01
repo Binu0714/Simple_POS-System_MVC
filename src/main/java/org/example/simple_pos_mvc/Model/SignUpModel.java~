@@ -17,14 +17,13 @@ public class SignUpModel {
     }
 
     public String generateUserId() throws SQLException, ClassNotFoundException {
-        ResultSet rst = CrudUtil.execute("SELECT user_id FROM user ORDER BY user_id DESC LIMIT 1");
+        ResultSet rst = CrudUtil.execute("SELECT user_id FROM user ORDER BY user_id DESC limit 1");
         if (rst.next()) {
-            String lastId = rst.getString(1); // e.g., "U09"
-            String numericPart = lastId.substring(1); // Extract "09"
-            int nextIdNumber = Integer.parseInt(numericPart) + 1; // 10
-            return String.format("U%02d", nextIdNumber); // "U10"
+            String lastId = rst.getString(1); // Last passenger ID
+            String numericPart = lastId.substring(1); // Extract the numeric part after "PS"
+            int nextIdNumber = Integer.parseInt(numericPart) + 1; // Increment by 1
+            return String.format("B%04d", nextIdNumber); // Format with leading zeros (e.g., PS0008)
         }
-        return "U01"; // Default first ID
+        return "B0001";
     }
-
 }

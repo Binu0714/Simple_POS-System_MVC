@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane prefHeight="560.0" prefWidth="675.0" styleClass="root-container" stylesheets="@../styles/login.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.simple_pos_mvc.Controller.SignUpController">
+<StackPane fx:id="signUpLoad" prefHeight="560.0" prefWidth="675.0" styleClass="root-container" stylesheets="@../styles/login.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.simple_pos_mvc.Controller.SignUpController">
 
     <VBox alignment="CENTER" maxHeight="500" maxWidth="600" spacing="30" styleClass="login-container">
 
@@ -24,22 +24,28 @@
 
         <!-- Login Form -->
         <VBox alignment="CENTER" spacing="20" styleClass="form-container">
-
-            <!-- Username Field -->
-            <VBox spacing="8">
-                <Label styleClass="field-label" text="Name" />
-                <TextField fx:id="usernameField" prefHeight="45" promptText="Enter your name" />
-            </VBox>
+         <VBox spacing="8">
+            <children>
+               <Label styleClass="field-label" text="User_id" />
+               <TextField fx:id="userIdFeild" prefHeight="45" promptText="User Id" />
+            </children>
+         </VBox>
 
             <!-- Password Field -->
             <VBox spacing="8">
                 <Label styleClass="field-label" text="Username" />
-                <PasswordField fx:id="passwordField" prefHeight="45" promptText="Enter uour username" />
+            <TextField fx:id="usernameFeild" prefHeight="45" promptText="Enter Username" />
             </VBox>
          <VBox spacing="8">
             <children>
                <Label styleClass="field-label" text="Password" />
-               <PasswordField fx:id="passwordField1" prefHeight="45" promptText="Enter your password" />
+               <PasswordField fx:id="passwordField" prefHeight="45" promptText="Enter your password" />
+            </children>
+         </VBox>
+         <VBox spacing="8">
+            <children>
+               <Label styleClass="field-label" text="Email" />
+               <TextField fx:id="emailFeild" prefHeight="45" promptText="Enter your Email" />
             </children>
          </VBox>
 
