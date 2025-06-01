@@ -2,6 +2,7 @@ package org.example.simple_pos_mvc.Controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Hyperlink;
@@ -9,12 +10,19 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import org.example.simple_pos_mvc.Model.LoginModel;
+
+import java.io.IOException;
 
 public class LoginController {
 
     @FXML
     private Label errorLabel;
+
+    @FXML
+    private StackPane ancLogin;
 
     @FXML
     private Hyperlink forgotPasswordLink;
@@ -67,8 +75,15 @@ public class LoginController {
     }
 
     @FXML
-    void handleSignUp(ActionEvent event) {
+    void handleSignUp(ActionEvent event) throws IOException {
         System.out.println("sign up btn clicked");
+
+        ancLogin.getChildren().clear();
+        StackPane load = FXMLLoader.load(getClass().getResource("/view/SignUp.fxml"));
+        ancLogin.getChildren().add(load);
+
+        load.prefWidthProperty().bind(ancLogin.widthProperty());
+        load.prefHeightProperty().bind(ancLogin.heightProperty());
     }
 
 }
