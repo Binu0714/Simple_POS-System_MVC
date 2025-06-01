@@ -28,13 +28,13 @@
             <!-- Username Field -->
             <VBox spacing="8">
                 <Label styleClass="field-label" text="Username" />
-                <TextField fx:id="usernameField" prefHeight="45" promptText="Enter your username" styleClass="input-field" />
+                <TextField fx:id="usernameField" prefHeight="45" promptText="Enter your username"  />
             </VBox>
 
             <!-- Password Field -->
             <VBox spacing="8">
                 <Label styleClass="field-label" text="Password" />
-                <PasswordField fx:id="passwordField" prefHeight="45" promptText="Enter your password" styleClass="input-field" />
+                <PasswordField fx:id="passwordField" prefHeight="45" promptText="Enter your password"  />
             </VBox>
 
             <!-- Remember Me and Forgot Password -->
@@ -43,7 +43,7 @@
             </HBox>
 
             <!-- Login Button -->
-            <Button fx:id="loginButton" maxWidth="Infinity" onAction="#handleLogin" prefHeight="45" styleClass="login-button" text="Sign In" />
+            <Button fx:id="loginButton" maxWidth="Infinity" onAction="#handleLogin" prefHeight="45" styleClass="login-button" text="Log In" />
 
             <!-- Error Message -->
             <Label fx:id="errorLabel" managed="false" styleClass="error-message" visible="false" />
