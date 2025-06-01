@@ -1,6 +1,7 @@
 module org.example.simple_pos_mvc {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.sql;
 
 
     opens org.example.simple_pos_mvc.Controller to javafx.fxml;
