@@ -1,15 +1,19 @@
 package org.example.simple_pos_mvc.Controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import org.example.simple_pos_mvc.DTO.ItemDto;
 import org.example.simple_pos_mvc.DTO.TM.ItemTM;
 import org.example.simple_pos_mvc.Model.ItemModel;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ItemManageController implements Initializable {
@@ -60,6 +64,11 @@ public class ItemManageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        itemIdColumn.setCellValueFactory(new PropertyValueFactory<>("item_id"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        qtyColumn.setCellValueFactory(new PropertyValueFactory<>("qty"));
+        unitPriceColumn.setCellValueFactory(new PropertyValueFactory<>("unit_price"));
+
         try {
             refreshPage();
         } catch (SQLException | ClassNotFoundException e) {
@@ -68,6 +77,8 @@ public class ItemManageController implements Initializable {
     }
 
     public void refreshPage() throws SQLException, ClassNotFoundException {
+        loadTableData();
+
         try {
             String generatedItemId = itemModel.generateItemId();
             itemIdLabel.setText(generatedItemId);
@@ -79,6 +90,23 @@ public class ItemManageController implements Initializable {
         nameField.setText("");
         qtyField.setText("");
         unitPriceField.setText("");
+    }
+
+    public void loadTableData() throws SQLException, ClassNotFoundException {
+        ArrayList<ItemDto> itemDtos = itemModel.getAllItems();
+
+        ObservableList<ItemTM> itemTMS = FXCollections.observableArrayList();
+
+        for (ItemDto itemDto : itemDtos) {
+            ItemTM itemTM = new ItemTM(
+                    itemDto.getItem_id(),
+                    itemDto.getName(),
+                    itemDto.getQty(),
+                    itemDto.getUnit_price()
+            );
+            itemTMS.add(itemTM);
+        }
+        itemTable.setItems(itemTMS);
     }
 
     @FXML

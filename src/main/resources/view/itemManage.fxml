@@ -94,33 +94,27 @@
             <!-- Item Table -->
             <TableView fx:id="itemTable" style="-fx-font-size: 13px;" VBox.vgrow="ALWAYS">
                 <columns>
-                    <TableColumn fx:id="itemIdColumn" prefWidth="152.80000764131546" text="Item ID">
+                    <TableColumn fx:id="itemIdColumn" prefWidth="212.00000458955765" text="Item ID">
                         <cellValueFactory>
                             <PropertyValueFactory property="itemId" />
                         </cellValueFactory>
                     </TableColumn>
 
-                    <TableColumn fx:id="nameColumn" prefWidth="244.00001525878906" text="Item Name">
+                    <TableColumn fx:id="nameColumn" prefWidth="332.0000305175781" text="Item Name">
                         <cellValueFactory>
                             <PropertyValueFactory property="name" />
                         </cellValueFactory>
                     </TableColumn>
 
-                    <TableColumn fx:id="qtyColumn" prefWidth="232.0" text="Quantity">
+                    <TableColumn fx:id="qtyColumn" prefWidth="268.800048828125" text="Quantity">
                         <cellValueFactory>
                             <PropertyValueFactory property="qty" />
                         </cellValueFactory>
                     </TableColumn>
 
-                    <TableColumn fx:id="unitPriceColumn" prefWidth="200.0" text="Unit Price">
+                    <TableColumn fx:id="unitPriceColumn" prefWidth="238.39990234375" text="Unit Price">
                         <cellValueFactory>
                             <PropertyValueFactory property="unitPrice" />
-                        </cellValueFactory>
-                    </TableColumn>
-
-                    <TableColumn fx:id="statusColumn" prefWidth="222.39996337890625" text="Stock Status">
-                        <cellValueFactory>
-                            <PropertyValueFactory property="stockStatus" />
                         </cellValueFactory>
                     </TableColumn>
                 </columns>

@@ -5,6 +5,7 @@ import org.example.simple_pos_mvc.Util.CrudUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ItemModel {
     public boolean saveItem(ItemDto itemDto) throws SQLException, ClassNotFoundException {
@@ -26,4 +27,22 @@ public class ItemModel {
         }
         return "I001";
     }
+
+    public ArrayList<ItemDto> getAllItems() throws SQLException, ClassNotFoundException {
+        ResultSet rst = CrudUtil.execute("SELECT * FROM item");
+
+        ArrayList<ItemDto> itemDtos = new ArrayList<>();
+
+        while (rst.next()) {
+            ItemDto itemDto = new ItemDto(
+                    rst.getString(1),
+                    rst.getString(2),
+                    rst.getInt(3),
+                    rst.getDouble(4)
+            );
+            itemDtos.add(itemDto);
+        }
+        return itemDtos;
+    }
+
 }
