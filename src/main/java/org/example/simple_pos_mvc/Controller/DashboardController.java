@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import org.example.simple_pos_mvc.Model.CustomerModel;
+import org.example.simple_pos_mvc.Model.ItemModel;
 import org.example.simple_pos_mvc.Model.SignUpModel;
 
 import java.io.IOException;
@@ -89,7 +90,10 @@ public class DashboardController implements Initializable {
 
             int totalUsers = new SignUpModel().getTotalUsers();
             totalUsersLabel.setText(String.valueOf(totalUsers));
-            
+
+            int totalItems = new ItemModel().getTotalItems();
+            totalItemsLabel.setText(String.valueOf(totalItems));
+
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }

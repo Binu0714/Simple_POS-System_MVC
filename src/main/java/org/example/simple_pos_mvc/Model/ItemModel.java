@@ -57,4 +57,13 @@ public class ItemModel {
     public boolean deleteItem(String id) throws SQLException, ClassNotFoundException {
         return CrudUtil.execute("DELETE FROM item WHERE item_id=?", id);
     }
+
+    public int getTotalItems() throws SQLException, ClassNotFoundException {
+        ResultSet rst = CrudUtil.execute("SELECT COUNT(*) FROM item");
+
+        if (rst.next()) {
+            return rst.getInt(1);
+        }
+        return 0;
+    }
 }
