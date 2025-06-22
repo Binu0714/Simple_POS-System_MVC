@@ -2,19 +2,23 @@ package org.example.simple_pos_mvc.Controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import org.example.simple_pos_mvc.DTO.CustomerDto;
+import org.example.simple_pos_mvc.DTO.TM.CustomerTM;
+import org.example.simple_pos_mvc.Model.CustomerModel;
 
-public class CustomerManageController {
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.ResourceBundle;
+
+public class CustomerManageController implements Initializable {
 
     @FXML
     private Button addButton;
 
     @FXML
-    private TableColumn<?, ?> addressColumn;
+    private TableColumn<CustomerTM, String> addressColumn;
 
     @FXML
     private TextField addressField;
@@ -23,37 +27,37 @@ public class CustomerManageController {
     private Button clearButton;
 
     @FXML
-    private TableColumn<?, ?> customerIdColumn;
+    private TableColumn<CustomerTM, String> customerIdColumn;
 
     @FXML
     private Label customerIdLabel;
 
     @FXML
-    private TableView<?> customerTable;
+    private TableView<CustomerTM> customerTable;
 
     @FXML
     private Button deleteButton;
 
     @FXML
-    private TableColumn<?, ?> emailColumn;
+    private TableColumn<CustomerTM, String> emailColumn;
 
     @FXML
     private TextField emailField;
 
     @FXML
-    private TableColumn<?, ?> nameColumn;
+    private TableColumn<CustomerTM, String> nameColumn;
 
     @FXML
     private TextField nameField;
 
     @FXML
-    private TableColumn<?, ?> nicColumn;
+    private TableColumn<CustomerTM, String> nicColumn;
 
     @FXML
     private TextField nicField;
 
     @FXML
-    private TableColumn<?, ?> phoneColumn;
+    private TableColumn<CustomerTM, String> phoneColumn;
 
     @FXML
     private TextField phoneField;
@@ -64,9 +68,56 @@ public class CustomerManageController {
     @FXML
     private Button updateButton;
 
-    @FXML
-    void handleAddAction(ActionEvent event) {
+    CustomerModel customerModel = new CustomerModel();
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        refreshPage();
+    }
+
+    public void refreshPage(){
+        try {
+            String generatedCustomerId = customerModel.generateCustomerId();
+            customerIdLabel.setText(generatedCustomerId);
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        nameField.setText("");
+        nicField.setText("");
+        emailField.setText("");
+        phoneField.setText("");
+        addressField.setText("");
+    }
+
+    @FXML
+    void handleAddAction(ActionEvent event) throws SQLException, ClassNotFoundException {
+        System.out.println("save btn clicked");
+
+        String id = customerIdLabel.getText();
+        String name = nameField.getText();
+        String nic = nicField.getText();
+        String email = emailField.getText();
+        String phone = phoneField.getText();
+        String address = addressField.getText();
+
+        CustomerDto customerDto = new CustomerDto(
+                id,
+                name,
+                nic,
+                email,
+                phone,
+                address
+        );
+
+        boolean isSaved = customerModel.saveCustomer(customerDto);
+
+        if (isSaved) {
+            refreshPage();
+            new Alert(Alert.AlertType.INFORMATION, "Customer saved...!").show();
+        }else {
+            new Alert(Alert.AlertType.ERROR, "Fail to save customer...!").show();
+        }
     }
 
     @FXML
