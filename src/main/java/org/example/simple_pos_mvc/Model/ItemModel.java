@@ -45,4 +45,12 @@ public class ItemModel {
         return itemDtos;
     }
 
+    public boolean updateItem(ItemDto itemDto) throws SQLException, ClassNotFoundException {
+        return CrudUtil.execute("UPDATE item SET name=?, qty=?, unit_price=? WHERE item_id=?",
+                itemDto.getName(),
+                itemDto.getQty(),
+                itemDto.getUnit_price(),
+                itemDto.getItem_id()
+        );
+    }
 }

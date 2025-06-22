@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import org.example.simple_pos_mvc.DTO.ItemDto;
 import org.example.simple_pos_mvc.DTO.TM.ItemTM;
 import org.example.simple_pos_mvc.Model.ItemModel;
@@ -141,8 +142,23 @@ public class ItemManageController implements Initializable {
     }
 
     @FXML
-    void handleClearAction(ActionEvent event) {
+    void onClick(MouseEvent event) {
+        ItemTM itemTM = itemTable.getSelectionModel().getSelectedItem();
+
+        if (itemTM != null) {
+            itemIdLabel.setText(itemTM.getItem_id());
+            nameField.setText(itemTM.getName());
+            qtyField.setText(String.valueOf(itemTM.getQty()));
+            unitPriceField.setText(String.valueOf(itemTM.getUnit_price()));
+
+            addButton.setDisable(true);
+        }
+    }
+
+    @FXML
+    void handleClearAction(ActionEvent event) throws SQLException, ClassNotFoundException {
         System.out.println("clear btn clicked");
+        refreshPage();
     }
 
     @FXML
@@ -151,8 +167,34 @@ public class ItemManageController implements Initializable {
     }
 
     @FXML
-    void handleUpdateAction(ActionEvent event) {
+    void handleUpdateAction(ActionEvent event) throws SQLException, ClassNotFoundException {
         System.out.println("update btn clicked");
+
+        String id = itemIdLabel.getText();
+        String name = nameField.getText();
+        String qty = qtyField.getText();
+        String unitPrice = unitPriceField.getText();
+
+        if (id.isEmpty() || name.isEmpty() || qty.isEmpty() || unitPrice.isEmpty()) {
+            new Alert(Alert.AlertType.ERROR, "Please fill all fields!").show();
+            return;
+        }
+
+        ItemDto itemDto = new ItemDto(
+                id,
+                name,
+                Integer.parseInt(qty),
+                Double.parseDouble(unitPrice)
+        );
+
+        boolean isUpdated = itemModel.updateItem(itemDto);
+
+        if (isUpdated) {
+            refreshPage();
+            new Alert(Alert.AlertType.INFORMATION, "Item updated...!").show();
+        }else {
+            new Alert(Alert.AlertType.ERROR, "Fail to update Item...!").show();
+        }
     }
 
 }
