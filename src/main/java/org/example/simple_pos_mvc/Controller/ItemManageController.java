@@ -15,6 +15,7 @@ import org.example.simple_pos_mvc.Model.ItemModel;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ItemManageController implements Initializable {
@@ -87,10 +88,11 @@ public class ItemManageController implements Initializable {
             throw new RuntimeException(e);
         }
 
-
         nameField.setText("");
         qtyField.setText("");
         unitPriceField.setText("");
+
+        addButton.setDisable(false);
     }
 
     public void loadTableData() throws SQLException, ClassNotFoundException {
@@ -162,8 +164,25 @@ public class ItemManageController implements Initializable {
     }
 
     @FXML
-    void handleDeleteAction(ActionEvent event) {
+    void handleDeleteAction(ActionEvent event) throws SQLException, ClassNotFoundException {
         System.out.println("delete btn clicked");
+
+        String id = itemIdLabel.getText();
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Are you sure?",ButtonType.YES,ButtonType.NO);
+        Optional<ButtonType> optionalButtonType = alert.showAndWait();
+
+        if (optionalButtonType.isPresent() && optionalButtonType.get() == ButtonType.YES) {
+
+            boolean isDeleted = itemModel.deleteItem(id);
+
+            if (isDeleted) {
+                refreshPage();
+                new Alert(Alert.AlertType.INFORMATION, "Item deleted successfully...!").show();
+            }else {
+                new Alert(Alert.AlertType.ERROR, "Fail to delete Item...!").show();
+            }
+        }
     }
 
     @FXML
