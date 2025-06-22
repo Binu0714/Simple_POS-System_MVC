@@ -153,6 +153,11 @@ public class CustomerManageController implements Initializable {
         String phone = phoneField.getText();
         String address = addressField.getText();
 
+        if (id.isEmpty() || name.isEmpty() || nic.isEmpty() || email.isEmpty() || phone.isEmpty() || address.isEmpty()) {
+            new Alert(Alert.AlertType.ERROR, "Please fill all fields!").show();
+            return;
+        }
+
         CustomerDto customerDto = new CustomerDto(
                 id,
                 name,
@@ -210,6 +215,11 @@ public class CustomerManageController implements Initializable {
         String email = emailField.getText();
         String phone = phoneField.getText();
         String address = addressField.getText();
+
+        if (id.isEmpty() || name.isEmpty() || nic.isEmpty() || email.isEmpty() || phone.isEmpty() || address.isEmpty()) {
+            new Alert(Alert.AlertType.ERROR, "Please fill all fields!").show();
+            return;
+        }
 
         CustomerDto customerDto = new CustomerDto(
                 id,
