@@ -15,6 +15,7 @@ import org.example.simple_pos_mvc.Model.CustomerModel;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class CustomerManageController implements Initializable {
@@ -178,10 +179,25 @@ public class CustomerManageController implements Initializable {
     }
 
     @FXML
-    void handleDeleteAction(ActionEvent event) {
+    void handleDeleteAction(ActionEvent event) throws SQLException, ClassNotFoundException {
         System.out.println("delete btn clicked");
 
+        String id = customerIdLabel.getText();
 
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Are you sure?",ButtonType.YES,ButtonType.NO);
+        Optional<ButtonType> optionalButtonType = alert.showAndWait();
+
+        if (optionalButtonType.isPresent() && optionalButtonType.get() == ButtonType.YES) {
+
+            boolean isDeleted = customerModel.deleteCustomer(id);
+
+            if (isDeleted) {
+                refreshPage();
+                new Alert(Alert.AlertType.INFORMATION, "Customer deleted successfully...!").show();
+            }else {
+                new Alert(Alert.AlertType.ERROR, "Fail to delete Customer...!").show();
+            }
+        }
     }
 
     @FXML
