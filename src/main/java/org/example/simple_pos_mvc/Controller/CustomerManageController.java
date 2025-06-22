@@ -107,6 +107,8 @@ public class CustomerManageController implements Initializable {
         emailField.setText("");
         phoneField.setText("");
         addressField.setText("");
+
+        addButton.setDisable(false);
     }
 
     public void loadTbaleData() throws SQLException, ClassNotFoundException {
@@ -139,6 +141,8 @@ public class CustomerManageController implements Initializable {
             emailField.setText(customerTM.getCus_email());
             phoneField.setText(customerTM.getCus_phone());
             addressField.setText(customerTM.getCus_address());
+
+            addButton.setDisable(true);
         }
     }
 
