@@ -1,15 +1,19 @@
 package org.example.simple_pos_mvc.Controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import org.example.simple_pos_mvc.DTO.CustomerDto;
 import org.example.simple_pos_mvc.DTO.TM.CustomerTM;
 import org.example.simple_pos_mvc.Model.CustomerModel;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class CustomerManageController implements Initializable {
@@ -72,10 +76,23 @@ public class CustomerManageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        refreshPage();
+        customerIdColumn.setCellValueFactory(new PropertyValueFactory<>("cus_id"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("cus_name"));
+        nicColumn.setCellValueFactory(new PropertyValueFactory<>("cus_nic"));
+        emailColumn.setCellValueFactory(new PropertyValueFactory<>("cus_email"));
+        phoneColumn.setCellValueFactory(new PropertyValueFactory<>("cus_phone"));
+        addressColumn.setCellValueFactory(new PropertyValueFactory<>("cus_address"));
+
+        try {
+            refreshPage();
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public void refreshPage(){
+    public void refreshPage() throws SQLException, ClassNotFoundException {
+        loadTbaleData();
+
         try {
             String generatedCustomerId = customerModel.generateCustomerId();
             customerIdLabel.setText(generatedCustomerId);
@@ -88,6 +105,25 @@ public class CustomerManageController implements Initializable {
         emailField.setText("");
         phoneField.setText("");
         addressField.setText("");
+    }
+
+    public void loadTbaleData() throws SQLException, ClassNotFoundException {
+        ArrayList<CustomerDto> customerDtos = customerModel.getAllCustomers();
+
+        ObservableList<CustomerTM> customerTMS = FXCollections.observableArrayList();
+
+        for (CustomerDto customerDto : customerDtos) {
+            CustomerTM customerTM = new CustomerTM(
+                    customerDto.getCus_id(),
+                    customerDto.getCus_name(),
+                    customerDto.getCus_nic(),
+                    customerDto.getCus_email(),
+                    customerDto.getCus_phone(),
+                    customerDto.getCus_address()
+            );
+            customerTMS.add(customerTM);
+        }
+        customerTable.setItems(customerTMS);
     }
 
     @FXML
