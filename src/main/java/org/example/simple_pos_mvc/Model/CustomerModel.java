@@ -65,4 +65,13 @@ public class CustomerModel {
         return CrudUtil.execute("DELETE FROM customer WHERE cus_id=?", id);
     }
 
+    public int getTotalCustomers() throws SQLException, ClassNotFoundException {
+        ResultSet rst = CrudUtil.execute("SELECT COUNT(*) FROM customer");
+
+        if (rst.next()) {
+            return rst.getInt(1);
+        }
+        return 0;
+    }
+
 }

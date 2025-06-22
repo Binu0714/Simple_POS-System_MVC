@@ -3,6 +3,7 @@ package org.example.simple_pos_mvc.Controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -10,10 +11,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import org.example.simple_pos_mvc.Model.CustomerModel;
+import org.example.simple_pos_mvc.Model.SignUpModel;
 
 import java.io.IOException;
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.ResourceBundle;
 
-public class DashboardController {
+public class DashboardController implements Initializable {
 
     @FXML
     private CategoryAxis chartXAxis;
@@ -74,6 +80,20 @@ public class DashboardController {
 
     @FXML
     private AnchorPane dashAnc;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        try {
+            int totalCustomers = new CustomerModel().getTotalCustomers();
+            totalCustomersLabel.setText(String.valueOf(totalCustomers));
+
+            int totalUsers = new SignUpModel().getTotalUsers();
+            totalUsersLabel.setText(String.valueOf(totalUsers));
+            
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @FXML
     void handleCustomerManageAction(ActionEvent event) throws IOException {

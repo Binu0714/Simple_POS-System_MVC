@@ -27,4 +27,13 @@ public class SignUpModel {
         return "U01"; // Default first ID
     }
 
+    public int getTotalUsers() throws SQLException, ClassNotFoundException {
+        ResultSet rst = CrudUtil.execute("SELECT COUNT(*) FROM user");
+
+        if (rst.next()) {
+            return rst.getInt(1);
+        }
+        return 0;
+    }
+
 }
