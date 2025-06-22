@@ -1,14 +1,143 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.example.simple_pos_mvc.Controller.DashobordController"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane prefHeight="768.0" prefWidth="1400.0" style="-fx-background-color: #ecf0f1;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.simple_pos_mvc.Controller.DashboardController">
+
+    <!-- Left Navigation Bar -->
+    <VBox fx:id="navigationBar" prefWidth="250.0" spacing="0.0" style="-fx-background-color: linear-gradient(to bottom, #2c3e50, #34495e);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+        <!-- Logo/Title Section -->
+        <VBox alignment="CENTER" spacing="10.0" style="-fx-padding: 30 20 30 20;">
+            <Label style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;" text="POS System" />
+            <Label style="-fx-text-fill: rgba(255,255,255,0.8); -fx-font-size: 14px;" text="Dashboard" />
+        </VBox>
+
+        <!-- Navigation Buttons -->
+        <VBox spacing="5.0" style="-fx-padding: 0 15 0 15;">
+
+            <!-- Dashboard Button -->
+            <Button fx:id="dashboardBtn" onAction="#handleDashboardAction" prefHeight="50.0" prefWidth="220.0" style="-fx-background-color: rgba(52, 152, 219, 0.8); -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand; -fx-alignment: center-left; -fx-padding: 15 20 15 20;" text="📊 Dashboard" />
+
+            <!-- Customer Management Button -->
+            <Button fx:id="customerManageBtn" onAction="#handleCustomerManageAction" prefHeight="50.0" prefWidth="220.0" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5; -fx-cursor: hand; -fx-alignment: center-left; -fx-padding: 15 20 15 20;" text="👥 Customer Manage" />
+
+            <!-- Item Management Button -->
+            <Button fx:id="itemManageBtn" onAction="#handleItemManageAction" prefHeight="50.0" prefWidth="220.0" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5; -fx-cursor: hand; -fx-alignment: center-left; -fx-padding: 15 20 15 20;" text="📦 Item Manage" />
+
+            <!-- Order Management Button -->
+            <Button fx:id="orderManageBtn" onAction="#handleOrderManageAction" prefHeight="50.0" prefWidth="220.0" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5; -fx-cursor: hand; -fx-alignment: center-left; -fx-padding: 15 20 15 20;" text="🛒 Order Manage" />
+        </VBox>
+
+        <!-- Spacer to push logout to bottom -->
+        <Region VBox.vgrow="ALWAYS" />
+
+        <!-- Logout Button -->
+        <VBox style="-fx-padding: 15;">
+            <Button fx:id="logoutBtn" onAction="#handleLogoutAction" prefHeight="50.0" prefWidth="220.0" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand; -fx-alignment: center-left; -fx-padding: 15 20 15 20;" text="🚪 Logout" />
+        </VBox>
+
+    </VBox>
+
+    <!-- Main Content Area -->
+    <AnchorPane fx:id="loadPane" style="-fx-background-color: #ecf0f1;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+        <!-- Dashboard Content (Default View) -->
+        <ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background: transparent; -fx-background-color: transparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+            <VBox spacing="30.0" style="-fx-padding: 30;">
+
+                <!-- Header -->
+                <HBox alignment="CENTER_LEFT" spacing="15.0">
+                    <Label style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Dashboard Overview" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Label fx:id="dateTimeLabel" style="-fx-font-size: 14px; -fx-text-fill: #7f8c8d;" text="Today: June 22, 2025" />
+                </HBox>
+
+                <!-- Statistics Cards -->
+                <HBox alignment="CENTER" spacing="20.0">
+
+                    <!-- Users Card -->
+                    <VBox alignment="CENTER" prefHeight="120.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2); -fx-padding: 20;">
+                        <Label style="-fx-font-size: 24px;" text="👤" />
+                        <Label fx:id="totalUsersLabel" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #3498db;" text="0" />
+                        <Label style="-fx-font-size: 14px; -fx-text-fill: #7f8c8d; -fx-font-weight: bold;" text="Total Users" />
+                    </VBox>
+
+                    <!-- Customers Card -->
+                    <VBox alignment="CENTER" prefHeight="120.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2); -fx-padding: 20;">
+                        <Label style="-fx-font-size: 24px;" text="👥" />
+                        <Label fx:id="totalCustomersLabel" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #27ae60;" text="0" />
+                        <Label style="-fx-font-size: 14px; -fx-text-fill: #7f8c8d; -fx-font-weight: bold;" text="Total Customers" />
+                    </VBox>
+
+                    <!-- Items Card -->
+                    <VBox alignment="CENTER" prefHeight="120.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2); -fx-padding: 20;">
+                        <Label style="-fx-font-size: 24px;" text="📦" />
+                        <Label fx:id="totalItemsLabel" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #f39c12;" text="0" />
+                        <Label style="-fx-font-size: 14px; -fx-text-fill: #7f8c8d; -fx-font-weight: bold;" text="Total Items" />
+                    </VBox>
+
+                    <!-- Orders Card -->
+                    <VBox alignment="CENTER" prefHeight="120.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2); -fx-padding: 20;">
+                        <Label style="-fx-font-size: 24px;" text="🛒" />
+                        <Label fx:id="totalOrdersLabel" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #e74c3c;" text="0" />
+                        <Label style="-fx-font-size: 14px; -fx-text-fill: #7f8c8d; -fx-font-weight: bold;" text="Total Orders" />
+                    </VBox>
+
+                </HBox>
+
+                <!-- Charts and Reports Section -->
+                <HBox alignment="TOP_CENTER" spacing="30.0">
+
+                    <!-- Daily Orders Chart -->
+                    <VBox prefWidth="500.0" spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2); -fx-padding: 25;">
+                        <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Daily Orders Chart" />
+                        <LineChart fx:id="dailyOrdersChart" createSymbols="false" prefHeight="300.0" prefWidth="450.0">
+                            <xAxis>
+                                <CategoryAxis fx:id="chartXAxis" />
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis fx:id="chartYAxis" />
+                            </yAxis>
+                        </LineChart>
+                    </VBox>
+
+                    <!-- Reports Section -->
+                    <VBox prefWidth="300.0" spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2); -fx-padding: 25;">
+                        <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Generate Reports" />
+
+                        <VBox spacing="10.0">
+                            <!-- Sales Report Button -->
+                            <Button fx:id="salesReportBtn" onAction="#handleSalesReportAction" prefHeight="40.0" prefWidth="250.0" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand;" text="📊 Sales Report" />
+
+                            <!-- Inventory Report Button -->
+                            <Button fx:id="inventoryReportBtn" onAction="#handleInventoryReportAction" prefHeight="40.0" prefWidth="250.0" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand;" text="📋 Inventory Report" />
+
+                            <!-- Customer Report Button -->
+                            <Button fx:id="customerReportBtn" onAction="#handleCustomerReportAction" prefHeight="40.0" prefWidth="250.0" style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand;" text="👥 Customer Report" />
+
+                            <!-- Financial Report Button -->
+                            <Button fx:id="financialReportBtn" onAction="#handleFinancialReportAction" prefHeight="40.0" prefWidth="250.0" style="-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand;" text="💰 Financial Report" />
+                        </VBox>
+
+                    </VBox>
+
+                </HBox>
+
+            </VBox>
+
+        </ScrollPane>
+
+    </AnchorPane>
 
 </AnchorPane>

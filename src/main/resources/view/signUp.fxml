@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="ancSignUp" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-color: linear-gradient(to bottom, #2c3e50, #34495e);" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.simple_pos_mvc.Controller.SignUpController">
+<AnchorPane fx:id="ancSignUp" prefHeight="768.0" prefWidth="1400.0" style="-fx-background-color: linear-gradient(to bottom, #2c3e50, #34495e);" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.simple_pos_mvc.Controller.SignUpController">
 
     <!-- Main Sign Up Container -->
     <VBox alignment="CENTER" spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

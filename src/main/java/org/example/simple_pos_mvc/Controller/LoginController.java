@@ -35,7 +35,7 @@ public class LoginController {
     LoginModel loginModel = new LoginModel();
 
     @FXML
-    void handleLoginAction(ActionEvent event) {
+    void handleLoginAction(ActionEvent event) throws IOException {
         System.out.println("login btn clicked");
 
         String EnterUsername = usernameField.getText();
@@ -45,6 +45,13 @@ public class LoginController {
             new Alert(Alert.AlertType.INFORMATION, "Login Successfull...!").show();
 
             System.out.println("dashboard loading..");
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/dashboard.fxml"));
+            AnchorPane anchorPane = loader.load();
+
+            ancLogin.getChildren().clear();
+            ancLogin.getChildren().add(anchorPane);
+
         }else {
             if (loginModel.checkUsername(EnterUsername) && !(loginModel.checkPassword(EnterPassword))) {
                 usernameField.setStyle("-fx-text-box-border: blue; ");
