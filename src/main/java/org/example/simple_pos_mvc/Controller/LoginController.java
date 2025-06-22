@@ -3,15 +3,8 @@ package org.example.simple_pos_mvc.Controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import org.example.simple_pos_mvc.Model.LoginModel;
 
 import java.io.IOException;
@@ -19,13 +12,7 @@ import java.io.IOException;
 public class LoginController {
 
     @FXML
-    private Label errorLabel;
-
-    @FXML
-    private StackPane ancLogin;
-
-    @FXML
-    private Hyperlink forgotPasswordLink;
+    private Label errorMessageLabel;
 
     @FXML
     private ProgressIndicator loadingIndicator;
@@ -37,33 +24,31 @@ public class LoginController {
     private PasswordField passwordField;
 
     @FXML
-    private CheckBox rememberMeCheckbox;
-
-    @FXML
-    private Hyperlink signUpLink;
+    private Button signUpButton;
 
     @FXML
     private TextField usernameField;
 
+    @FXML
+    private AnchorPane ancLogin;
+
     LoginModel loginModel = new LoginModel();
 
     @FXML
-    void handleLogin(ActionEvent event) {
+    void handleLoginAction(ActionEvent event) {
         System.out.println("login btn clicked");
 
-        String enteredUsername = usernameField.getText();
-        String enteredPassword = passwordField.getText();
+        String EnterUsername = usernameField.getText();
+        String EnterPassword = passwordField.getText();
 
-        if (loginModel.checkLogin(enteredUsername,enteredPassword)){
-            System.out.println("login successful..");
+        if (loginModel.checkLogin(EnterUsername, EnterPassword)) {
+            new Alert(Alert.AlertType.INFORMATION, "Login Successfull...!").show();
 
-        }else{
-            if (loginModel.checkUsername(enteredUsername) && ! (loginModel.checkPassword(enteredPassword))){
+            System.out.println("dashboard loading..");
+        }else {
+            if (loginModel.checkUsername(EnterUsername) && !(loginModel.checkPassword(EnterPassword))) {
                 usernameField.setStyle("-fx-text-box-border: blue; ");
                 passwordField.setStyle("-fx-text-box-border: red; ");
-            } else if (!(loginModel.checkUsername(enteredUsername)) && loginModel.checkPassword(enteredPassword)) {
-                usernameField.setStyle("-fx-text-box-border: red; ");
-                passwordField.setStyle("-fx-text-box-border: blue; ");
             } else {
                 passwordField.setStyle("-fx-text-box-border: red; ");
                 usernameField.setStyle("-fx-text-box-border: red; ");
@@ -75,12 +60,13 @@ public class LoginController {
     }
 
     @FXML
-    void handleSignUp(ActionEvent event) throws IOException {
+    void handleSignUpAction(ActionEvent event) throws IOException {
         System.out.println("sign up btn clicked");
 
         ancLogin.getChildren().clear();
-        StackPane load = FXMLLoader.load(getClass().getResource("/view/SignUp.fxml"));
+        AnchorPane load = FXMLLoader.load(getClass().getResource("/view/signUp.fxml"));
         ancLogin.getChildren().add(load);
+
     }
 
 }
