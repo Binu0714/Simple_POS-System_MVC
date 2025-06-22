@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import org.example.simple_pos_mvc.DTO.CustomerDto;
 import org.example.simple_pos_mvc.DTO.TM.CustomerTM;
 import org.example.simple_pos_mvc.Model.CustomerModel;
@@ -127,6 +128,20 @@ public class CustomerManageController implements Initializable {
     }
 
     @FXML
+    void onClick(MouseEvent event) {
+        CustomerTM customerTM = customerTable.getSelectionModel().getSelectedItem();
+
+        if (customerTM != null) {
+            customerIdLabel.setText(customerTM.getCus_id());
+            nameField.setText(customerTM.getCus_name());
+            nicField.setText(customerTM.getCus_nic());
+            emailField.setText(customerTM.getCus_email());
+            phoneField.setText(customerTM.getCus_phone());
+            addressField.setText(customerTM.getCus_address());
+        }
+    }
+
+    @FXML
     void handleAddAction(ActionEvent event) throws SQLException, ClassNotFoundException {
         System.out.println("save btn clicked");
 
@@ -157,18 +172,46 @@ public class CustomerManageController implements Initializable {
     }
 
     @FXML
-    void handleClearAction(ActionEvent event) {
-
+    void handleClearAction(ActionEvent event) throws SQLException, ClassNotFoundException {
+        System.out.println("clear btn clicked");
+        refreshPage();
     }
 
     @FXML
     void handleDeleteAction(ActionEvent event) {
+        System.out.println("delete btn clicked");
+
 
     }
 
     @FXML
-    void handleUpdateAction(ActionEvent event) {
+    void handleUpdateAction(ActionEvent event) throws SQLException, ClassNotFoundException {
+        System.out.println("update btn clicked");
 
+        String id = customerIdLabel.getText();
+        String name = nameField.getText();
+        String nic = nicField.getText();
+        String email = emailField.getText();
+        String phone = phoneField.getText();
+        String address = addressField.getText();
+
+        CustomerDto customerDto = new CustomerDto(
+                id,
+                name,
+                nic,
+                email,
+                phone,
+                address
+        );
+
+        boolean isUpdated = customerModel.updateCustomer(customerDto);
+
+        if (isUpdated) {
+            refreshPage();
+            new Alert(Alert.AlertType.INFORMATION, "Customer updated...!").show();
+        }else {
+            new Alert(Alert.AlertType.ERROR, "Fail to update passenger...!").show();
+        }
     }
 
 }

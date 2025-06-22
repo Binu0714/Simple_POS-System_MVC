@@ -102,7 +102,7 @@
             </HBox>
 
             <!-- Customer Table -->
-            <TableView fx:id="customerTable" style="-fx-font-size: 13px;" VBox.vgrow="ALWAYS">
+            <TableView fx:id="customerTable" onMouseClicked="#onClick" style="-fx-font-size: 13px;" VBox.vgrow="ALWAYS">
                 <columns>
                     <TableColumn fx:id="customerIdColumn" prefWidth="86.39998322725296" text="Customer ID">
                         <cellValueFactory>

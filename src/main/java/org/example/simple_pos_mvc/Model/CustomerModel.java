@@ -49,4 +49,16 @@ public class CustomerModel {
     return customerDtos;
     }
 
+    public boolean updateCustomer(CustomerDto customerDto) throws SQLException, ClassNotFoundException {
+        return CrudUtil.execute(
+                "UPDATE customer SET name=?, nic=?, email=?, phone=?, address=? WHERE cus_id=?",
+                    customerDto.getCus_name(),
+                    customerDto.getCus_nic(),
+                    customerDto.getCus_email(),
+                    customerDto.getCus_phone(),
+                    customerDto.getCus_address(),
+                    customerDto.getCus_id()
+                );
+    }
+
 }
