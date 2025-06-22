@@ -2,6 +2,7 @@ package org.example.simple_pos_mvc.Controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -9,6 +10,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+
+import java.io.IOException;
 
 public class DashboardController {
 
@@ -70,8 +73,15 @@ public class DashboardController {
     private Label totalUsersLabel;
 
     @FXML
-    void handleCustomerManageAction(ActionEvent event) {
+    private AnchorPane dashAnc;
 
+    @FXML
+    void handleCustomerManageAction(ActionEvent event) throws IOException {
+        System.out.println("customer manage btn clicked");
+
+        loadPane.getChildren().clear();
+        AnchorPane load = FXMLLoader.load(getClass().getResource("/view/customerManage.fxml"));
+        loadPane.getChildren().add(load);
     }
 
     @FXML
@@ -80,8 +90,12 @@ public class DashboardController {
     }
 
     @FXML
-    void handleDashboardAction(ActionEvent event) {
+    void handleDashboardAction(ActionEvent event) throws IOException {
+        System.out.println("dashboard btn clicked");
 
+//        loadPane.getChildren().clear();
+//        AnchorPane load = FXMLLoader.load(getClass().getResource("/view/dashboard.fxml"));
+//        loadPane.getChildren().add(load);
     }
 
     @FXML
@@ -95,18 +109,26 @@ public class DashboardController {
     }
 
     @FXML
-    void handleItemManageAction(ActionEvent event) {
+    void handleItemManageAction(ActionEvent event) throws IOException {
+        System.out.println("item manage btn clicked");
 
+        loadPane.getChildren().clear();
+        AnchorPane load = FXMLLoader.load(getClass().getResource("/view/itemManage.fxml"));
+        loadPane.getChildren().add(load);
     }
 
     @FXML
-    void handleLogoutAction(ActionEvent event) {
+    void handleLogoutAction(ActionEvent event) throws IOException {
+        System.out.println("logout btn clicked");
 
+        dashAnc.getChildren().clear();
+        AnchorPane load = FXMLLoader.load(getClass().getResource("/view/login.fxml"));
+        dashAnc.getChildren().add(load);
     }
 
     @FXML
     void handleOrderManageAction(ActionEvent event) {
-
+        System.out.println("order manage btn clicked");
     }
 
     @FXML

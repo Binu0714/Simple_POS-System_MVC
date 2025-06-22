@@ -1,14 +1,154 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.example.simple_pos_mvc.Controller.CustomerManageController"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane prefHeight="768.0" prefWidth="1150.0" style="-fx-background-color: #ecf0f1;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.simple_pos_mvc.Controller.CustomerManageController">
+
+    <!-- Main Container -->
+    <VBox spacing="20.0" style="-fx-padding: 25;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+        <!-- Header -->
+        <HBox alignment="CENTER_LEFT" spacing="15.0">
+            <Label style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Customer Management" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Label style="-fx-font-size: 14px; -fx-text-fill: #7f8c8d;" text="Manage all customer information" />
+        </HBox>
+
+        <!-- Customer Form Section -->
+        <VBox spacing="20.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2); -fx-padding: 25;">
+
+            <!-- Form Title -->
+            <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Customer Information" />
+
+            <!-- Form Fields Grid -->
+            <GridPane hgap="20.0" vgap="15.0">
+                <columnConstraints>
+                    <ColumnConstraints minWidth="150.0" prefWidth="150.0" />
+                    <ColumnConstraints hgrow="ALWAYS" minWidth="200.0" prefWidth="200.0" />
+                    <ColumnConstraints minWidth="150.0" prefWidth="150.0" />
+                    <ColumnConstraints hgrow="ALWAYS" minWidth="200.0" prefWidth="200.0" />
+                </columnConstraints>
+
+                <!-- Customer ID (Auto-generated label) -->
+                <Label style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Customer ID:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                <Label fx:id="customerIdLabel" style="-fx-font-size: 14px; -fx-text-fill: #3498db; -fx-font-weight: bold;" text="CUS001" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                <!-- Name Field -->
+                <Label style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Customer Name:" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+                <TextField fx:id="nameField" prefHeight="40.0" promptText="Enter customer name" style="-fx-font-size: 14px; -fx-padding: 10; -fx-border-color: #bdc3c7; -fx-border-radius: 5; -fx-background-radius: 5;" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+
+                <!-- NIC Field -->
+                <Label style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="NIC:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                <TextField fx:id="nicField" prefHeight="40.0" promptText="Enter NIC number" style="-fx-font-size: 14px; -fx-padding: 10; -fx-border-color: #bdc3c7; -fx-border-radius: 5; -fx-background-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                <!-- Email Field -->
+                <Label style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Email:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                <TextField fx:id="emailField" prefHeight="40.0" promptText="Enter email address" style="-fx-font-size: 14px; -fx-padding: 10; -fx-border-color: #bdc3c7; -fx-border-radius: 5; -fx-background-radius: 5;" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+
+                <!-- Phone Field -->
+                <Label style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Phone:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                <TextField fx:id="phoneField" prefHeight="40.0" promptText="Enter phone number" style="-fx-font-size: 14px; -fx-padding: 10; -fx-border-color: #bdc3c7; -fx-border-radius: 5; -fx-background-radius: 5;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                <!-- Address Field -->
+                <Label style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Address:" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                <TextField fx:id="addressField" prefHeight="40.0" promptText="Enter address" style="-fx-font-size: 14px; -fx-padding: 10; -fx-border-color: #bdc3c7; -fx-border-radius: 5; -fx-background-radius: 5;" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <rowConstraints>
+               <RowConstraints />
+               <RowConstraints />
+               <RowConstraints />
+            </rowConstraints>
+            </GridPane>
+
+            <!-- Action Buttons -->
+            <HBox alignment="CENTER_LEFT" spacing="15.0">
+                <!-- Add Button -->
+                <Button fx:id="addButton" onAction="#handleAddAction" prefHeight="45.0" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand; -fx-padding: 12 20 12 20;" text="➕ Add Customer" />
+
+                <!-- Update Button -->
+                <Button fx:id="updateButton" onAction="#handleUpdateAction" prefHeight="45.0" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand; -fx-padding: 12 20 12 20;" text="✏️ Update Customer" />
+
+                <!-- Delete Button -->
+                <Button fx:id="deleteButton" onAction="#handleDeleteAction" prefHeight="45.0" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand; -fx-padding: 12 20 12 20;" text="🗑️ Delete Customer" />
+
+                <!-- Clear Button -->
+                <Button fx:id="clearButton" onAction="#handleClearAction" prefHeight="45.0" style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand; -fx-padding: 12 20 12 20;" text="🧹 Clear Form" />
+
+                <!-- Search Field -->
+                <Region HBox.hgrow="ALWAYS" />
+            </HBox>
+
+        </VBox>
+
+        <!-- Customer Table Section -->
+        <VBox spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2); -fx-padding: 25;" VBox.vgrow="ALWAYS">
+
+            <!-- Table Title -->
+            <HBox alignment="CENTER_LEFT" spacing="15.0">
+                <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Customer List" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Label fx:id="totalCustomersLabel" style="-fx-font-size: 14px; -fx-text-fill: #7f8c8d;" text="Total: 0 customers" />
+            </HBox>
+
+            <!-- Customer Table -->
+            <TableView fx:id="customerTable" style="-fx-font-size: 13px;" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="customerIdColumn" prefWidth="86.39998322725296" text="Customer ID">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="customerId" />
+                        </cellValueFactory>
+                    </TableColumn>
+
+                    <TableColumn fx:id="nameColumn" prefWidth="192.00001525878906" text="Name">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="name" />
+                        </cellValueFactory>
+                    </TableColumn>
+
+                    <TableColumn fx:id="nicColumn" prefWidth="166.39996337890625" text="NIC">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="nic" />
+                        </cellValueFactory>
+                    </TableColumn>
+
+                    <TableColumn fx:id="emailColumn" prefWidth="197.60003662109375" text="Email">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="email" />
+                        </cellValueFactory>
+                    </TableColumn>
+
+                    <TableColumn fx:id="phoneColumn" prefWidth="130.0" text="Phone">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="phone" />
+                        </cellValueFactory>
+                    </TableColumn>
+
+                    <TableColumn fx:id="addressColumn" prefWidth="279.19989013671875" text="Address">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="address" />
+                        </cellValueFactory>
+                    </TableColumn>
+                </columns>
+
+                <!-- Table placeholder -->
+                <placeholder>
+                    <Label style="-fx-text-fill: #7f8c8d; -fx-font-size: 14px;" text="No customers found. Add customers to see them here." />
+                </placeholder>
+            </TableView>
+
+        </VBox>
+
+    </VBox>
 
 </AnchorPane>
