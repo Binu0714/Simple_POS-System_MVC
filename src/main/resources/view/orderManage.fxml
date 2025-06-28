@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="768.0" prefWidth="1150.0" style="-fx-background-color: #ecf0f1;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.simple_pos_mvc.Controller.OrderManageController">
+<AnchorPane prefHeight="810.0" prefWidth="1150.0" style="-fx-background-color: #ecf0f1;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.simple_pos_mvc.Controller.OrderManageController">
 
     <!-- Main Container -->
     <VBox spacing="20.0" style="-fx-padding: 25;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -150,31 +150,36 @@
             <!-- Cart Table -->
             <TableView fx:id="cartTable" onMouseClicked="#onCartTableClick" style="-fx-font-size: 13px;" VBox.vgrow="ALWAYS">
                 <columns>
-                    <TableColumn fx:id="cartItemIdColumn" prefWidth="120.0" text="Item ID">
+                    <TableColumn fx:id="cartItemIdColumn" prefWidth="147.20000153779984" text="Item ID">
                         <cellValueFactory>
                             <PropertyValueFactory property="itemId" />
                         </cellValueFactory>
                     </TableColumn>
 
-                    <TableColumn fx:id="cartItemNameColumn" prefWidth="280.0" text="Item Name">
+                    <TableColumn fx:id="cartItemNameColumn" prefWidth="252.80003356933594" text="Item Name">
                         <cellValueFactory>
                             <PropertyValueFactory property="itemName" />
                         </cellValueFactory>
                     </TableColumn>
+               <TableColumn fx:id="cartUnitPriceColumn" prefWidth="127.20001220703125" text="Unit Price">
+                  <cellValueFactory>
+                     <PropertyValueFactory property="quantity" />
+                  </cellValueFactory>
+               </TableColumn>
 
-                    <TableColumn fx:id="cartQuantityColumn" prefWidth="120.0" text="Buying Qty">
+                    <TableColumn fx:id="cartQuantityColumn" prefWidth="148.79998779296875" text="Buying Qty">
                         <cellValueFactory>
                             <PropertyValueFactory property="quantity" />
                         </cellValueFactory>
                     </TableColumn>
 
-                    <TableColumn fx:id="cartTotalPriceColumn" prefWidth="150.0" text="Total Price">
+                    <TableColumn fx:id="cartTotalPriceColumn" prefWidth="207.2000732421875" text="Total Price">
                         <cellValueFactory>
                             <PropertyValueFactory property="totalPrice" />
                         </cellValueFactory>
                     </TableColumn>
 
-                    <TableColumn fx:id="cartActionColumn" prefWidth="120.0" text="Action">
+                    <TableColumn fx:id="cartActionColumn" prefWidth="166.39990234375" text="Action">
                         <cellValueFactory>
                             <PropertyValueFactory property="removeButton" />
                         </cellValueFactory>

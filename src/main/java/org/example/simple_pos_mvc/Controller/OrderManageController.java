@@ -12,10 +12,12 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import org.example.simple_pos_mvc.DTO.CustomerDto;
 import org.example.simple_pos_mvc.DTO.ItemDto;
+import org.example.simple_pos_mvc.DTO.TM.CartTM;
 import org.example.simple_pos_mvc.Model.CustomerModel;
 import org.example.simple_pos_mvc.Model.ItemModel;
 
@@ -45,10 +47,13 @@ public class OrderManageController implements Initializable {
     private TableColumn<?, ?> cartQuantityColumn;
 
     @FXML
-    private TableView<?> cartTable;
+    private TableView<CartTM> cartTable;
 
     @FXML
     private TableColumn<?, ?> cartTotalPriceColumn;
+
+    @FXML
+    private TableColumn<?, ?> cartUnitPriceColumn;
 
     @FXML
     private Button confirmOrderButton;
@@ -93,13 +98,25 @@ public class OrderManageController implements Initializable {
     private Label totalLabel;
 
     @FXML
+    private TextField qtyFeild;
+
+    @FXML
     private Label unitPriceLabel;
 
     CustomerModel customerModel = new CustomerModel();
     ItemModel itemModel = new ItemModel();
 
+    private ObservableList<CartTM> cartTMS = FXCollections.observableArrayList();
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        cartItemIdColumn.setCellValueFactory(new PropertyValueFactory<>("item_id"));
+        cartItemNameColumn.setCellValueFactory(new PropertyValueFactory<>("item_name"));
+        cartUnitPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+        cartQuantityColumn.setCellValueFactory(new PropertyValueFactory<>("buying_Qty"));
+        cartTotalPriceColumn.setCellValueFactory(new PropertyValueFactory<>("total"));
+        cartActionColumn.setCellValueFactory(new PropertyValueFactory<>("remove"));
+
         try {
             loadCustomerId();
             loadItemId();
@@ -115,7 +132,50 @@ public class OrderManageController implements Initializable {
 
     @FXML
     void handleAddToCart(ActionEvent event) {
+        loadTable();
+        refreshTable();
+    }
 
+    public void refreshTable(){
+        customerIdComboBox.setValue(null);
+        customerNameLabel.setText("");
+        itemIdComboBox.setValue(null);
+        itemNameLabel.setText("");
+        unitPriceLabel.setText("");
+        qtyOnHandLabel.setText("");
+        qtyFeild.setText("");
+    }
+
+    public void  loadTable(){
+        String item_id = itemIdComboBox.getValue();
+        String item_name = itemNameLabel.getText();
+        double price = Double.parseDouble(unitPriceLabel.getText());
+        int buying_Qty = Integer.parseInt(qtyFeild.getText());
+        double total = buying_Qty * price;
+
+        Button remove = new Button("remove");
+        remove.setStyle("-fx-background-color: red; -fx-text-fill: white;");
+
+        CartTM cartTM = new CartTM(
+                item_id,
+                item_name,
+                price,
+                buying_Qty,
+                total,
+                remove
+        );
+        cartTMS.add(cartTM);
+        removeCart(remove, cartTM);
+
+        cartTable.setItems(cartTMS);
+    }
+
+    private void removeCart(Button button, CartTM cartTM) {
+        button.setOnAction(actionEvent -> {
+            CartTM selectedItem = cartTable.getSelectionModel().getSelectedItem();
+            System.out.println(selectedItem);
+            cartTMS.remove(cartTM);
+        });
     }
 
     @FXML
