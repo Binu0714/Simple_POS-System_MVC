@@ -1,5 +1,6 @@
 package org.example.simple_pos_mvc.Model;
 
+import org.example.simple_pos_mvc.DTO.CustomerDto;
 import org.example.simple_pos_mvc.DTO.ItemDto;
 import org.example.simple_pos_mvc.Util.CrudUtil;
 
@@ -65,5 +66,29 @@ public class ItemModel {
             return rst.getInt(1);
         }
         return 0;
+    }
+
+    public ItemDto findById(String selectedId) throws SQLException, ClassNotFoundException {
+        ResultSet rst = CrudUtil.execute("SELECT * FROM item WHERE item_id=?", selectedId);
+        if (rst.next()) {
+            return new ItemDto(
+                    rst.getString(1),
+                    rst.getString(2),
+                    rst.getInt(3),
+                    rst.getDouble(4)
+            );
+        }
+        return null;
+    }
+
+    public ArrayList<String> getAllItemIds() throws SQLException, ClassNotFoundException {
+        ResultSet rst = CrudUtil.execute("SELECT item_id FROM item");
+
+        ArrayList<String> itemIds = new ArrayList<>();
+
+        while (rst.next()) {
+            itemIds.add(rst.getString(1));
+        }
+        return itemIds;
     }
 }

@@ -151,8 +151,12 @@ public class DashboardController implements Initializable {
     }
 
     @FXML
-    void handleOrderManageAction(ActionEvent event) {
+    void handleOrderManageAction(ActionEvent event) throws IOException {
         System.out.println("order manage btn clicked");
+
+        loadPane.getChildren().clear();
+        AnchorPane load = FXMLLoader.load(getClass().getResource("/view/orderManage.fxml"));
+        loadPane.getChildren().add(load);
     }
 
     @FXML

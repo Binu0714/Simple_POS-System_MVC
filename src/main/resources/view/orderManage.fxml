@@ -1,14 +1,199 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.example.simple_pos_mvc.Controller.OrderManageController"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane prefHeight="768.0" prefWidth="1150.0" style="-fx-background-color: #ecf0f1;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.simple_pos_mvc.Controller.OrderManageController">
+
+    <!-- Main Container -->
+    <VBox spacing="20.0" style="-fx-padding: 25;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+        <!-- Header -->
+        <HBox alignment="CENTER_LEFT" spacing="15.0">
+            <Label style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Order Management" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Label fx:id="dateLabel" style="-fx-font-size: 16px; -fx-text-fill: #7f8c8d; -fx-font-weight: bold;" text="Today: 2024-01-15" />
+        </HBox>
+
+        <!-- Order Information Section -->
+        <HBox spacing="20.0">
+
+            <!-- Left Panel - Order Form -->
+            <VBox prefWidth="500.0" spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2); -fx-padding: 20;">
+
+                <!-- Form Title -->
+                <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Order Information" />
+
+                <!-- Order Details Grid -->
+                <GridPane hgap="15.0" vgap="10.0">
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="120.0" prefWidth="120.0" />
+                        <ColumnConstraints hgrow="ALWAYS" maxWidth="161.20001220703125" minWidth="131.2000244140625" prefWidth="131.2000244140625" />
+                        <ColumnConstraints hgrow="ALWAYS" maxWidth="155.19997558593747" minWidth="120.0" prefWidth="155.19997558593747" />
+                    </columnConstraints>
+
+                    <!-- Order ID -->
+                    <Label style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Order ID:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                    <Label fx:id="orderIdLabel" style="-fx-font-size: 14px; -fx-text-fill: #e74c3c; -fx-font-weight: bold;" text="ORD001" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="0" />
+
+                    <!-- Customer ID -->
+                    <Label style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Customer ID:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                    <ComboBox fx:id="customerIdComboBox" onAction="#handleCustomerSelection" prefHeight="30.0" prefWidth="300.0" promptText="Select Customer ID" style="-fx-font-size: 14px;" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+
+                    <!-- Customer Name (Auto-filled Label) -->
+                    <Label style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Customer Name:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                    <Label fx:id="customerNameLabel" prefHeight="30.0" prefWidth="300.0" style="-fx-font-size: 14px; -fx-text-fill: #34495e; -fx-background-color: #f8f9fa; -fx-padding: 8; -fx-border-color: #dee2e6; -fx-border-radius: 5; -fx-background-radius: 5; -fx-alignment: CENTER_LEFT;" text="" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+
+                    <!-- Item Selection -->
+                    <Label style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Item ID:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                    <ComboBox fx:id="itemIdComboBox" onAction="#handleItemSelection" prefHeight="30.0" prefWidth="300.0" promptText="Select Item ID" style="-fx-font-size: 14px;" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+
+                    <!-- Item Name (Auto-filled Label) -->
+                    <Label style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Item Name:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                    <Label fx:id="itemNameLabel" prefHeight="30.0" prefWidth="300.0" style="-fx-font-size: 14px; -fx-text-fill: #34495e; -fx-background-color: #f8f9fa; -fx-padding: 8; -fx-border-color: #dee2e6; -fx-border-radius: 5; -fx-background-radius: 5; -fx-alignment: CENTER_LEFT;" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+
+                    <!-- Quantity on Hand and Unit Price on same line -->
+                    <Label style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Qty on Hand:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                    <Label fx:id="qtyOnHandLabel" prefHeight="38.0" prefWidth="73.0" style="-fx-font-size: 14px; -fx-text-fill: #34495e; -fx-background-color: #f8f9fa; -fx-padding: 8; -fx-border-color: #dee2e6; -fx-border-radius: 5; -fx-background-radius: 5; -fx-alignment: CENTER;" text="" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                    <HBox alignment="CENTER_LEFT" spacing="8.0" GridPane.columnIndex="2" GridPane.rowIndex="5">
+                        <Label style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Unit Price:" />
+                        <Label fx:id="unitPriceLabel" prefHeight="38.0" prefWidth="73.0" style="-fx-font-size: 14px; -fx-text-fill: #34495e; -fx-background-color: #f8f9fa; -fx-padding: 8; -fx-border-color: #dee2e6; -fx-border-radius: 5; -fx-background-radius: 5; -fx-alignment: CENTER;" text="" />
+                    </HBox>
+
+                    <!-- Quantity to Order -->
+                    <Label style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Quantity:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+               <TextField GridPane.columnIndex="1" GridPane.rowIndex="6" />
+               <TextField fx:id="qtyFeild" prefHeight="26.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+
+                    <rowConstraints>
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                    </rowConstraints>
+                </GridPane>
+
+                <!-- Add to Cart Button -->
+                <HBox alignment="CENTER" style="-fx-padding: 5 0 0 0;">
+                    <Button fx:id="addToCartButton" onAction="#handleAddToCart" prefHeight="40.0" prefWidth="400.0" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand;" text="🛒 Add to Cart" />
+                </HBox>
+
+            </VBox>
+
+            <!-- Right Panel - Order Summary -->
+            <VBox spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2); -fx-padding: 25;" HBox.hgrow="ALWAYS">
+
+                <!-- Summary Title -->
+                <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Order Summary" />
+
+                <!-- Summary Details -->
+                <GridPane hgap="15.0" vgap="10.0">
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="100.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="ALWAYS" />
+                    </columnConstraints>
+
+                    <Label style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Total Items:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                    <Label fx:id="totalItemsLabel" style="-fx-font-size: 14px; -fx-text-fill: #3498db; -fx-font-weight: bold;" text="0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                    <Label style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Subtotal:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                    <Label fx:id="subtotalLabel" style="-fx-font-size: 14px; -fx-text-fill: #3498db; -fx-font-weight: bold;" text="Rs. 0.00" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                    <Label style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Discount:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                    <TextField fx:id="discountField" onKeyReleased="#calculateTotal" prefHeight="35.0" promptText="0.00" style="-fx-font-size: 14px; -fx-padding: 8;" text="0.00" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                    <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #e74c3c;" text="Total:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                    <Label fx:id="totalLabel" style="-fx-font-size: 16px; -fx-text-fill: #e74c3c; -fx-font-weight: bold;" text="Rs. 0.00" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+                    <rowConstraints>
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                    </rowConstraints>
+                </GridPane>
+
+                <!-- Order Actions -->
+                <VBox spacing="10.0">
+                    <Button fx:id="placeOrderButton" onAction="#handlePlaceOrder" prefHeight="46.0" prefWidth="580.0" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 5; -fx-cursor: hand;" text="📋 Place Order" />
+                </VBox>
+
+            </VBox>
+
+        </HBox>
+
+        <!-- Cart Table Section -->
+        <VBox spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2); -fx-padding: 25;" VBox.vgrow="ALWAYS">
+
+            <!-- Table Title -->
+            <HBox alignment="CENTER_LEFT" spacing="15.0">
+                <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Shopping Cart" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Label fx:id="cartItemCountLabel" style="-fx-font-size: 14px; -fx-text-fill: #7f8c8d;" text="Items in cart: 0" />
+            </HBox>
+
+            <!-- Cart Table -->
+            <TableView fx:id="cartTable" onMouseClicked="#onCartTableClick" style="-fx-font-size: 13px;" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="cartItemIdColumn" prefWidth="120.0" text="Item ID">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="itemId" />
+                        </cellValueFactory>
+                    </TableColumn>
+
+                    <TableColumn fx:id="cartItemNameColumn" prefWidth="280.0" text="Item Name">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="itemName" />
+                        </cellValueFactory>
+                    </TableColumn>
+
+                    <TableColumn fx:id="cartQuantityColumn" prefWidth="120.0" text="Buying Qty">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="quantity" />
+                        </cellValueFactory>
+                    </TableColumn>
+
+                    <TableColumn fx:id="cartTotalPriceColumn" prefWidth="150.0" text="Total Price">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="totalPrice" />
+                        </cellValueFactory>
+                    </TableColumn>
+
+                    <TableColumn fx:id="cartActionColumn" prefWidth="120.0" text="Action">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="removeButton" />
+                        </cellValueFactory>
+                    </TableColumn>
+                </columns>
+
+                <!-- Table placeholder -->
+                <placeholder>
+                    <Label style="-fx-text-fill: #7f8c8d; -fx-font-size: 14px;" text="Cart is empty. Add items to see them here." />
+                </placeholder>
+            </TableView>
+
+            <!-- Confirm Order Button -->
+            <HBox alignment="CENTER" spacing="15.0" style="-fx-padding: 10 0 0 0;">
+                <Button fx:id="confirmOrderButton" onAction="#handleConfirmOrder" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 3, 0, 0, 1);" text="✅ Confirm Order" />
+            </HBox>
+
+        </VBox>
+
+    </VBox>
 
 </AnchorPane>
