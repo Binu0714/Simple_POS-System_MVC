@@ -5,24 +5,22 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import org.example.simple_pos_mvc.DTO.CustomerDto;
 import org.example.simple_pos_mvc.DTO.ItemDto;
+import org.example.simple_pos_mvc.DTO.OrderDetailDto;
+import org.example.simple_pos_mvc.DTO.OrderDto;
 import org.example.simple_pos_mvc.DTO.TM.CartTM;
 import org.example.simple_pos_mvc.Model.CustomerModel;
 import org.example.simple_pos_mvc.Model.ItemModel;
+import org.example.simple_pos_mvc.Model.OrderModel;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -103,8 +101,10 @@ public class OrderManageController implements Initializable {
     @FXML
     private Label unitPriceLabel;
 
+
     CustomerModel customerModel = new CustomerModel();
     ItemModel itemModel = new ItemModel();
+    OrderModel orderModel = new OrderModel();
 
     private ObservableList<CartTM> cartTMS = FXCollections.observableArrayList();
 
@@ -118,8 +118,11 @@ public class OrderManageController implements Initializable {
         cartActionColumn.setCellValueFactory(new PropertyValueFactory<>("remove"));
 
         try {
-            loadCustomerId();
-            loadItemId();
+            refreshPage();
+
+            LocalDate currentDate = LocalDate.now();
+            dateLabel.setText(currentDate.toString());
+
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -131,13 +134,14 @@ public class OrderManageController implements Initializable {
     }
 
     @FXML
-    void handleAddToCart(ActionEvent event) {
+    void handleAddToCart(ActionEvent event) throws SQLException, ClassNotFoundException {
         loadTable();
         refreshTable();
     }
 
-    public void refreshTable(){
-        customerIdComboBox.setValue(null);
+    public void refreshTable() throws SQLException, ClassNotFoundException {
+        orderIdLabel.setText(orderModel.generateOrderId());
+
         customerNameLabel.setText("");
         itemIdComboBox.setValue(null);
         itemNameLabel.setText("");
@@ -155,6 +159,17 @@ public class OrderManageController implements Initializable {
 
         Button remove = new Button("remove");
         remove.setStyle("-fx-background-color: red; -fx-text-fill: white;");
+
+        int qty_on_hand = Integer.parseInt(qtyOnHandLabel.getText());
+
+        if (buying_Qty > qty_on_hand) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Quantity Error");
+            alert.setHeaderText("Insufficient Stock");
+            alert.setContentText("Requested quantity exceeds the available stock!");
+            alert.showAndWait();
+            return;
+        }
 
         CartTM cartTM = new CartTM(
                 item_id,
@@ -179,8 +194,59 @@ public class OrderManageController implements Initializable {
     }
 
     @FXML
-    void handleConfirmOrder(ActionEvent event) {
+    void handleConfirmOrder(ActionEvent event) throws SQLException, ClassNotFoundException {
 
+        if (cartTable.getItems().isEmpty()){
+            new Alert(Alert.AlertType.ERROR, "Please add items to cart..!").show();
+            return;
+        }
+
+        if (customerIdComboBox.getValue() == null || customerIdComboBox.getValue().isEmpty()) {
+            new Alert(Alert.AlertType.ERROR, "Please select a customer to place the order..!").show();
+            return;
+        }
+
+        String order_id = orderIdLabel.getText();
+        String customer_id = customerIdComboBox.getValue();
+        String order_date = dateLabel.getText();
+
+        ArrayList<OrderDetailDto> orderDetailDtos = new ArrayList<>();
+
+        for (CartTM cartTM : cartTMS) {
+            OrderDetailDto orderDetailDto = new OrderDetailDto(
+                    order_id,
+                    cartTM.getItem_id(),
+                    cartTM.getBuying_Qty(),
+                    cartTM.getTotal()
+            );
+            orderDetailDtos.add(orderDetailDto);
+        }
+
+        OrderDto orderDto = new OrderDto(
+                order_id,
+                customer_id,
+                order_date,
+                orderDetailDtos
+        );
+
+        boolean isSaved = orderModel.saveOrder(orderDto);
+
+        if (isSaved) {
+            new Alert(Alert.AlertType.INFORMATION, "Order saved..!").show();
+            refreshPage();
+        }else {
+            new Alert(Alert.AlertType.ERROR, "Order fail..!").show();
+        }
+    }
+
+    public void refreshPage() throws SQLException, ClassNotFoundException {
+        loadCustomerId();
+        loadItemId();
+        refreshTable();
+
+        cartTMS.clear();
+        customerIdComboBox.setValue(null);
+        cartTable.refresh();
     }
 
     @FXML

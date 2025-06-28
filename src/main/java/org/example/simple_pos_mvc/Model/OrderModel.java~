@@ -9,7 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class OrderModel {
-    public OrderDetailModel orderDetailModel = new OrderDetailModel();
 
     public String generateOrderId() throws SQLException, ClassNotFoundException {
         ResultSet rst = CrudUtil.execute("SELECT order_id FROM orders ORDER BY order_id DESC LIMIT 1");
@@ -33,24 +32,8 @@ public class OrderModel {
                     orderDto.getCustomer_id(),
                     orderDto.getOrder_date()
             );
-
-            if (isSaved) {
-                boolean isOrderDetailSaved = orderDetailModel.saveOrderDetail(orderDto.getOrderDetailsDTOS());
-
-                if (isOrderDetailSaved) {
-                    connection.commit();
-                    return true;
-                }
-            }
-
-            connection.rollback();
-            return false;
-
         } catch (Exception e) {
-            connection.rollback();
-            return false;
-        }finally {
-            connection.setAutoCommit(true);
+            throw new RuntimeException(e);
         }
     }
 

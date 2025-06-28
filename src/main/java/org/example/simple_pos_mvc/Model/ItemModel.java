@@ -2,6 +2,7 @@ package org.example.simple_pos_mvc.Model;
 
 import org.example.simple_pos_mvc.DTO.CustomerDto;
 import org.example.simple_pos_mvc.DTO.ItemDto;
+import org.example.simple_pos_mvc.DTO.OrderDetailDto;
 import org.example.simple_pos_mvc.Util.CrudUtil;
 
 import java.sql.ResultSet;
@@ -90,5 +91,12 @@ public class ItemModel {
             itemIds.add(rst.getString(1));
         }
         return itemIds;
+    }
+
+    public boolean reduceItemQty(OrderDetailDto orderDetailDto) throws SQLException, ClassNotFoundException {
+        return CrudUtil.execute("UPDATE item SET qty=qty-? WHERE item_id=?",
+                orderDetailDto.getQty(),
+                orderDetailDto.getItem_id()
+        );
     }
 }
